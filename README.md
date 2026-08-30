@@ -1,46 +1,47 @@
 # Semantic Classification Optimizations
 
-A semantic classification project that compares different optimization algorithms (GD, SGD, Adam) on Turkish question-answer pairs. Built as part of the Differential Equations course — Homework 1.
+Türkçe soru-cevap çiftleri üzerinde **semantik sınıflandırma** yapan ve farklı optimizasyon algoritmalarını (GD, SGD, Adam) karşılaştıran bir projedir. Diferansiyel Denklemler dersi Ödev 1 kapsamında hazırlanmıştır.
 
-## Project Overview
+## 🎯 Proje Özeti
 
-- Turkish question-answer pairs were generated locally using **Turkish-Gemma-9B** model via **LM Studio**
-- Each pair is labeled as a correct match (`+1`) or incorrect match (`-1`)
-- Text embeddings are produced using the [`ytu-ce-cosmos/turkish-e5-large`](https://huggingface.co/ytu-ce-cosmos/turkish-e5-large) model from **HuggingFace**
-- Three optimization algorithms — Gradient Descent (GD), Stochastic Gradient Descent (SGD), and Adam — are trained and compared
-- Results are visualized with **Loss**, **Accuracy**, and **t-SNE** plots
+Bu projede:
+- **LM Studio** kullanılarak yerel olarak çalıştırılan **Turkish-Gemma-9B** modeli ile Türkçe soru-cevap çiftleri üretilmiştir
+- Üretilen çiftler, doğru eşleşme (`+1`) ve yanlış eşleşme (`-1`) olarak etiketlenmiştir
+- **HuggingFace**'den çekilen [`ytu-ce-cosmos/turkish-e5-large`](https://huggingface.co/ytu-ce-cosmos/turkish-e5-large) embedding modeli ile metinler vektörleştirilmiştir
+- Gradient Descent (GD), Stochastic Gradient Descent (SGD) ve Adam optimizasyon algoritmaları karşılaştırılmıştır
+- Sonuçlar **Loss**, **Accuracy** ve **t-SNE** grafikleri ile görselleştirilmiştir
 
-## Project Structure
+## 📁 Proje Yapısı
 
 ```
-├── optimizations.ipynb   # Main notebook — training and visualization
-├── train_test.csv        # Question-answer dataset generated via LM Studio (200 rows)
+├── optimizations.ipynb   # Ana notebook — model eğitimi ve görselleştirme
+├── train_test.csv        # LM Studio ile üretilmiş soru-cevap veri seti (200 satır)
 ├── .gitignore
 └── README.md
 ```
 
-## Dataset
+## 🗂️ Veri Seti
 
-`train_test.csv` consists of 4 columns:
+`train_test.csv` dosyası 4 sütundan oluşur:
 
-| Column  | Description |
-|---------|-------------|
-| `Soru`  | Turkish question text |
-| `Cevap` | Turkish answer text |
-| `Etiket`| `+1` (correct match) or `-1` (incorrect match) |
-| `Küme`  | `Eğitim` / Training (100 rows) or `Test` (100 rows) |
+| Sütun   | Açıklama |
+|---------|----------|
+| `Soru`  | Türkçe soru metni |
+| `Cevap` | Türkçe cevap metni |
+| `Etiket`| `+1` (doğru eşleşme) veya `-1` (yanlış eşleşme) |
+| `Küme`  | `Eğitim` (100 satır) veya `Test` (100 satır) |
 
-### How the Dataset Was Created
+### Veri Seti Nasıl Oluşturuldu?
 
-1. Download and install **[LM Studio](https://lmstudio.ai/)**
-2. Pull the **Turkish-Gemma-9B-T1** model from within LM Studio
-3. Run the model locally to generate Turkish question-answer pairs
-4. Label correct question-answer matches as `+1` and incorrect ones as `-1`
-5. Export the data as `train_test.csv`
+1. **[LM Studio](https://lmstudio.ai/)** indirilip kurulur
+2. LM Studio içinden **Turkish-Gemma-9B-T1** modeli indirilir
+3. Model yerel olarak çalıştırılarak Türkçe soru-cevap çiftleri üretilir
+4. Doğru soru-cevap eşleşmeleri `+1`, yanlış eşleşmeler `-1` olarak etiketlenir
+5. Veriler `train_test.csv` formatında kaydedilir
 
-## HuggingFace Model Usage
+## 🤗 HuggingFace Model Kullanımı
 
-The project uses [`ytu-ce-cosmos/turkish-e5-large`](https://huggingface.co/ytu-ce-cosmos/turkish-e5-large) for text embeddings. The model is automatically downloaded via the `sentence-transformers` library:
+Projede embedding için [`ytu-ce-cosmos/turkish-e5-large`](https://huggingface.co/ytu-ce-cosmos/turkish-e5-large) modeli kullanılmaktadır. Model, `sentence-transformers` kütüphanesi ile otomatik olarak çekilir:
 
 ```python
 from sentence_transformers import SentenceTransformer
@@ -48,56 +49,57 @@ from sentence_transformers import SentenceTransformer
 embedding_model = SentenceTransformer("ytu-ce-cosmos/turkish-e5-large")
 ```
 
-> On the first run, the model is automatically downloaded from HuggingFace Hub (~1.2 GB). Subsequent runs load it from cache.
+> İlk çalıştırmada model otomatik olarak HuggingFace Hub'dan indirilir (~1.2 GB). Sonraki çalıştırmalarda cache'den yüklenir.
 
-## Installation
+## ⚙️ Kurulum
 
 ```bash
+# Gerekli kütüphaneleri yükleyin
 pip install pandas numpy torch matplotlib sentence-transformers scikit-learn huggingface_hub
 ```
 
-## Usage
+## 🚀 Çalıştırma
 
-1. Clone this repository:
+1. Bu repoyu klonlayın:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/Semantic-Classification-Optimizations.git
+   git clone https://github.com/KULLANICI_ADINIZ/Semantic-Classification-Optimizations.git
    cd Semantic-Classification-Optimizations
    ```
 
-2. Launch the notebook:
+2. Jupyter Notebook'u açın:
    ```bash
    jupyter notebook optimizations.ipynb
    ```
 
-3. Run all cells sequentially
+3. Hücreleri sırasıyla çalıştırın
 
-## Optimization Algorithms
+## 📊 Optimizasyon Algoritmaları
 
-| Algorithm | Learning Rate | Batch Size | Description |
-|------------------------------------------------------|
-| **GD** (Gradient Descent) | 0.5 | Full dataset | Updates weights using the entire training set |
-| **SGD** (Stochastic GD) | 0.1 | 1 | Updates weights using a single sample at a time |
-| **Adam** | 0.03 | 32 | Modern optimizer with adaptive learning rates |
+| Algoritma | Learning Rate | Batch Size | Açıklama |
+|-----------|:---:|:---:|----------|
+| **GD** (Gradient Descent) | 0.5 | Tüm veri | Tüm eğitim verisini kullanarak güncelleme yapar |
+| **SGD** (Stochastic GD) | 0.1 | 1 | Her seferinde tek bir örnek ile güncelleme yapar |
+| **Adam** | 0.03 | 32 | Adaptif öğrenme oranı kullanan modern optimizasyon |
 
-- Each algorithm is trained for **5 Runs x 100 Epochs**
-- All algorithms start from the **same initial weights** within each run for a fair comparison
+- Her algoritma **5 Run × 100 Epoch** boyunca eğitilir
+- Aynı run'da tüm algoritmalar **aynı başlangıç ağırlıklarından** (w) başlar — adil karşılaştırma için
 
-## Outputs
+## 📈 Çıktılar
 
-Running the notebook produces the following visualizations:
+Notebook çalıştırıldığında aşağıdaki grafikler üretilir:
 
-- **Epoch vs Loss** — Loss progression per algorithm across epochs
-- **Epoch vs Accuracy** — Accuracy progression per algorithm across epochs
-- **Time vs Loss** — Loss comparison over wall-clock time
-- **Time vs Accuracy** — Accuracy comparison over wall-clock time
-- **t-SNE Visualization** — 2D projection of optimization trajectories in weight space
+- **Epoch vs Loss** — Her algoritmanın epoch bazında kayıp değişimi
+- **Epoch vs Accuracy** — Her algoritmanın epoch bazında doğruluk değişimi
+- **Time vs Loss** — Zaman bazında kayıp karşılaştırması
+- **Time vs Accuracy** — Zaman bazında doğruluk karşılaştırması
+- **t-SNE Görselleştirmesi** — Ağırlık uzayında optimizasyon yollarının 2D görselleştirmesi
 
-## Tech Stack
+## 🛠️ Kullanılan Teknolojiler
 
-- **Python** — Core language
-- **PyTorch** — Model definition and training
-- **Sentence Transformers** — Turkish text embeddings
-- **scikit-learn** — t-SNE dimensionality reduction
-- **Matplotlib** — Plotting and visualization
-- **LM Studio** — Dataset generation (Turkish-Gemma-9B)
-- **HuggingFace Hub** — Embedding model access
+- **Python** — Ana programlama dili
+- **PyTorch** — Model oluşturma ve eğitim
+- **Sentence Transformers** — Türkçe metin embedding
+- **scikit-learn** — t-SNE boyut indirgeme
+- **Matplotlib** — Görselleştirme
+- **LM Studio** — Veri seti üretimi (Turkish-Gemma-9B)
+- **HuggingFace Hub** — Embedding model erişimi
