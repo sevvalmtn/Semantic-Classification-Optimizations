@@ -97,7 +97,7 @@ Running the notebook produces the following visualizations:
 - **Python** — Core language
 - **PyTorch** — Model definition and training
 - **Sentence Transformers** — Turkish text embeddings
-- **scikit-learn** — t-SNE dimensionality reduction
+- **Scikit-learn** — t-SNE dimensionality reduction
 - **Matplotlib** — Plotting and visualization
 - **LM Studio** — Dataset generation (Turkish-Gemma-9B)
 - **HuggingFace Hub** — Embedding model access
