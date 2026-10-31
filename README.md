@@ -1,6 +1,6 @@
 # Semantic Classification Optimizations
 
-A semantic classification project that compares different optimization algorithms (GD, SGD, Adam) on Turkish question-answer pairs. Built as part of the Differential Equations course — Homework 1.
+A semantic classification project that compares different optimization algorithms (GD, SGD, Adam) on Turkish question-answer pairs.
 
 ## Project Overview
 
